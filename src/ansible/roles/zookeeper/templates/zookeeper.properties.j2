@@ -1,0 +1,10 @@
+tickTime={{ zookeeper.configuration.tick_time }}
+dataDir={{ zookeeper.configuration.data_dir }}
+clientPort={{ zookeeper.configuration.client_port }}
+initLimit={{ zookeeper.configuration.init_limit }}
+syncLimit={{ zookeeper.configuration.sync_limit }}
+{% for server in groups["zookeeper_servers"] %}
+server.{{ loop.index }}={{ server }}:{{ zookeeper.configuration.peer_port }}:{{ zookeeper.configuration.election_port }}
+{% endfor %}
+autopurge.snapRetainCount={{ zookeeper.configuration.autopurge_snap_retain_count }}
+autopurge.purgeInterval={{ zookeeper.configuration.autopurge_purge_interval }}

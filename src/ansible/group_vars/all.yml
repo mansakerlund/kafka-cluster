@@ -1,0 +1,65 @@
+package_download_path : "/tmp"
+install_path : "/etc/kafka"
+kafka:
+  configuration:
+    plain_port: 9092
+    ssl_port: 9093    
+    data_dir: /var/lib/kafka 
+    log_path: /var/log/kafka
+    log_dirs: /tmp/lib/kafka/kafka-logs
+    network_threads: 3
+    disk_threads: 8 
+    num_partitions: 3
+    so_snd_buff_bytes: 102400
+    so_rcv_buff_bytes: 102400
+    so_request_max_bytes: 104857600
+    data_dir_recovery_threads: 1
+    log_retention_hours: 24 
+    log_retention_bytes: 1073741824
+    log_segment_bytes: 1073741824
+    log_retention_check_interval: 300000
+    log_cleaner_enable: false
+    zk_connection_timeout: 60000
+zookeeper:
+  version: 3.8.0
+  installation_path: /etc
+  download_mirror: http://apache.rediris.es/zookeeper
+  configuration:
+    client_port: 2181
+    peer_port: 2888
+    election_port: 3888
+    log_path: /var/log/zookeeper
+    data_dir: /var/lib/zookeeper
+    tick_time: 2000 
+    init_limit: 5
+    sync_limit: 2 
+    autopurge_snap_retain_count: 3
+    autopurge_purge_interval: 24
+connect:
+  configuration:
+    plugin_path: /etc/kafka/connect_plugin
+java:
+  java_type: jdk
+
+  # JDK 11.0.2.9
+  java_version: 11
+  java_update: 2
+  java_build: '9'
+
+  java_platform: linux-x64
+
+  java_usr_folder: /usr/java
+  java_download_folder: /tmp
+  
+  java_latest_folder: /usr/java/latest
+
+  java_download_base_url: https://download.java.net/java/GA
+
+  java_download_filename: 'open{{ java_type }}-{{ java_version }}.0.{{ java_update }}_{{ java_platform }}_bin.tar.gz'
+  java_download_url: '{{ java_download_base_url }}/{{ java_type }}{{ java_version}}/{{ java_build }}/GPL/{{ java_download_filename }}'
+  # https://download.java.net/java/GA/jdk11/13/GPL/openjdk-11.0.1_linux-x64_bin.tar.gz
+  java_folder: '{{ java_usr_folder }}/jdk-{{ java_version }}.0.{{ java_update }}'
+  java_archive: '{{ java_usr_folder }}/{{ java_download_filename }}'
+  java_security_folder: '{{ java_folder }}/lib/security'
+  
+  # TODO cleanup java variables

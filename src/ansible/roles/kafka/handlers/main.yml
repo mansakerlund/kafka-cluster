@@ -1,0 +1,8 @@
+- name: start zookeeper
+  command: sudo systemctl start confluent-kafka
+
+- name: stop zookeeper
+  command: sudo systemctl stop confluent-kafka
+
+- name: status zookeeper
+  command: sudo systemctl start confluent-kafka

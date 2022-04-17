@@ -1,0 +1,22 @@
+- name: create kafka group 
+  group: name=kafka state=present
+  
+- name: create kafka user
+  user: name=kafka group=kafka
+  
+- set_fact:
+    _kafka_config_path: "{{ install_path }}"
+  
+
+- name: set kafka data dir
+  file: path={{ kafka.configuration.data_dir }} state=directory owner=kafka group=kafka
+  
+- name: set kafka loggers dir
+  file: path={{ kafka.configuration.log_path }} state=directory owner=kafka group=kafka
+  
+- name: set kafka log topic dirs
+  file: path={{ kafka.configuration.log_dirs }} state=directory owner=kafka group=kafka
+  
+- name: set kafka configuration
+  template: src=templates/server.properties.j2 dest={{ _kafka_config_path }}/server.properties force=yes
+  

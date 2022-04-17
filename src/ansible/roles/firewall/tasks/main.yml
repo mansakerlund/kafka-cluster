@@ -1,0 +1,36 @@
+- name: enable and start firewalld
+  service: name=firewalld enabled=yes state=started
+  tags:
+    - firewall 
+
+# TODO: when cölause so that ports only opens if needed
+- name: set port policy kafka
+  firewalld: port={{ item }}/tcp permanent=true state=enabled immediate=yes
+  with_items:
+    - "{{ kafka.configuration.plain_port }}"
+    - "{{ kafka.configuration.ssl_port }}" 
+  tags:
+  - firewall 
+  notify: firewall restart
+
+
+- name: set port policy zookeeper
+  firewalld: port={{ item }}/tcp permanent=true state=enabled immediate=yes
+  with_items:
+    - "{{ zookeeper.configuration.client_port }}"
+    - "{{ zookeeper.configuration.peer_port }}"
+    - "{{ zookeeper.configuration.election_port }}"   
+  tags:
+  - firewall 
+  notify: firewall restart
+
+
+- name: set port policy prometheus
+  firewalld: port={{ item }}/tcp permanent=true state=enabled immediate=yes
+  with_items:
+    - 9090
+  tags:
+  - firewall 
+  notify: firewall restart
+
+ 

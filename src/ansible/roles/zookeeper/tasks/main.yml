@@ -1,0 +1,68 @@
+# https://docs.confluent.io/platform/current/installation/installing_cp/rhel-centos.html#
+- name: create zookeeper group 
+  group: name=zookeeper state=present
+  tags: 
+    - zookeeper 
+    - zk_setup
+
+- name: Fetch Java version
+  shell: java -version 2>&1 | grep version | awk '{print $3}' | sed 's/"//g'
+  register: java_version
+
+- name: "Fetch JAVA_HOME"
+  shell: java -XshowSettings:properties -version 2>&1 |grep -oP 'java.home =\s\K.*'
+  register: java_home
+  when: java_version.stdout | length > 0
+
+- name: create zookeeper user
+  user: name=zookeeper group=zookeeper
+  tags: 
+    - zookeeper 
+    - zk_setup
+  
+- name: set zookeeper data dir
+  file: path={{ zookeeper.configuration.data_dir }} state=directory owner=zookeeper group=zookeeper
+  tags: 
+    - zookeeper
+    - zk_configuration
+
+- name: set zookeeper log dir
+  file: path={{ zookeeper.configuration.log_path }} state=directory owner=zookeeper group=zookeeper
+  tags:
+    - zookeeper
+    - zk_configuration
+
+- set_fact:
+    _zookeeper_config_path: "{{ install_path }}"
+  tags: 
+    - zookeeper 
+    - zk_installation
+
+
+- name: Chech variables
+  ansible.builtin.debug:
+    msg: "Zookeeper config path: {{ _zookeeper_config_path }}"
+
+# set correct values for tick an dlimits
+- name: set zookeeper configuration
+  template: src=templates/zookeeper.properties.j2 dest={{ _zookeeper_config_path }}/zookeeper.properties force=yes
+  tags: 
+    - zookeeper
+    - zk_configuration
+
+- name: set zookeeper data dir
+  file: path={{ zookeeper.configuration.data_dir }} state=directory owner=zookeeper group=zookeeper
+  tags: 
+    - zookeeper
+    - zk_configuration
+
+- name: enable zookeeper boot start
+  command: sudo systemctl enable confluent-zookeeper
+  when: 0 > 1
+
+- name: set zookeeper myid configuration
+  template: src=templates/zookeeper.myid.j2 dest={{ zookeeper.configuration.data_dir }}/myid force=yes
+  tags: 
+    - zookeeper
+    - zk_configuration
+

@@ -1,0 +1,40 @@
+- name: Fetch Java version
+  shell: java -version 2>&1 | grep version | awk '{print $3}' | sed 's/"//g'
+  register: java_version
+
+
+- name: Java is not installed
+  ansible.builtin.debug:
+    msg: "{{ java_version.stdout }} {{ java_version.stdout | length }}"
+
+- name: Java is not installed
+  ansible.builtin.debug:
+    msg: "Java is not installed"
+  when: java_version.stdout  | length == 0
+
+- name: Install the latest version of OpenJDK 11
+  yum:
+    name: java-11-openjdk
+    state: latest
+  when: java_version.stdout  | length == 0
+
+- name: Java is installed
+  ansible.builtin.debug:
+    msg: "Java is installed"
+  when: java_version.stdout | length > 0
+
+- name: "Fetch JAVA_HOME"
+  shell: java -XshowSettings:properties -version 2>&1 |grep -oP 'java.home =\s\K.*'
+  register: java_home
+  when: java_version.stdout | length > 0
+
+- name: Java home
+  ansible.builtin.debug:
+    msg: "Java home: {{ java_home.stdout }}"
+  when: java_version.stdout | length > 0
+
+# TODO set java home environment variable
+# TODO set default java
+
+
+# https://www.digitalocean.com/community/tutorials/how-to-install-java-on-centos-and-fedora

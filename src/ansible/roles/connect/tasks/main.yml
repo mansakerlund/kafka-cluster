@@ -1,0 +1,6 @@
+- set_fact:
+    _kafka_config_path: "{{ install_path }}"
+  
+- name: set connect configuration
+  template: src=templates/connect.properties.j2 dest={{ _kafka_config_path }}/connect.properties force=yes
+  

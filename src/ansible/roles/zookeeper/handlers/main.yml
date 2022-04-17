@@ -1,0 +1,8 @@
+- name: start zookeeper
+  command: sudo systemctl start confluent-zookeeper
+
+- name: stop zookeeper
+  command: sudo systemctl stop confluent-zookeeper
+
+- name: status zookeeper
+  command: sudo systemctl start confluent-zookeeper

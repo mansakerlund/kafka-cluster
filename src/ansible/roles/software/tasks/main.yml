@@ -1,0 +1,22 @@
+# https://docs.confluent.io/platform/current/installation/installing_cp/rhel-centos.html#
+- name: Install curl and which
+  yum:
+    name:
+      - curl
+      - which      
+    state: latest
+
+- name: Install Confluent Platform public key
+  command: sudo rpm --import https://packages.confluent.io/rpm/7.0/archive.key
+
+# template: src=confluent.repo.j2 dest=/etc/yum.repos.d/confluent.repo owner=root group=root mode=644 force=yes
+- name: Add confluent repos to package manager (YUM)
+  template: src=confluent.repo.j2 dest=/etc/yum.repos.d/confluent.repo force=yes
+  
+
+- name: Clear YUM Caches
+  command: sudo yum clean all
+
+# TODO detect if install already done or leave that to YUM?
+- name: Confluent Platform using only Confluent Community components
+  command: sudo yum -y install confluent-community-2.13

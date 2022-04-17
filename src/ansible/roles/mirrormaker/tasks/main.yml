@@ -1,0 +1,6 @@
+- set_fact:
+    _kafka_config_path: "{{ install_path }}"
+  
+- name: set mirror maker configuration
+  template: src=templates/connect-mirror-maker.properties.j2 dest={{ _kafka_config_path }}/connect-mirror-maker.properties force=yes
+  
