@@ -1,4 +1,5 @@
 [vm]
-vm1 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=40.118.127.23     ansible_password=x6&4BMaRdJ+B_h5Z
-vm2 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=40.118.127.16    ansible_password=x6&4BMaRdJ+B_h5Z
-vm3 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=40.118.127.19     ansible_password=x6&4BMaRdJ+B_h5Z
+vm1 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=40.113.99.153     ansible_password=x6&4BMaRdJ+B_h5Z
+
+# vm2 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=40.118.127.16    ansible_password=x6&4BMaRdJ+B_h5Z
+# vm3 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=40.118.127.19     ansible_password=x6&4BMaRdJ+B_h5Z

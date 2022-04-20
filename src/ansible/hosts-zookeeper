@@ -1,0 +1,6 @@
+# These are your zookeeper cluster nodes
+[zookeeper_servers]
+zookeeper1 zk_id=1 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=40.118.127.23     ansible_password=x6&4BMaRdJ+B_h5Z
+zookeeper2 zk_id=2 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=40.118.127.16     ansible_password=x6&4BMaRdJ+B_h5Z
+zookeeper3 zk_id=3 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=40.118.127.19    ansible_password=x6&4BMaRdJ+B_h5Z
+

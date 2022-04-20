@@ -64,3 +64,46 @@ java:
   java_security_folder: '{{ java_folder }}/lib/security'
   
   # TODO cleanup java variables
+
+disk_additional_disks:
+ - disk: /dev/sdc
+   fstype: ext4
+   mount_options: defaults
+   mount: /data/sdc
+   user: root
+   group: root
+   mode: "0755"
+   disable_periodic_fsck: false 
+ - disk: /dev/sdd
+   fstype: ext4
+   mount_options: defaults
+   mount: /data/sdd
+   user: root
+   group: root
+   mode: "0755"
+   disable_periodic_fsck: false 
+ - disk: /dev/sde
+   fstype: ext4
+   mount_options: defaults
+   mount: /data/sde
+   user: root
+   group: root
+   mode: "0755"
+   disable_periodic_fsck: false 
+ - disk: /dev/sdf
+   fstype: ext4
+   mount_options: defaults
+   mount: /data/sdf
+   user: root
+   group: root
+   mode: "0755"
+   disable_periodic_fsck: false 
+ - disk: /dev/sdg
+   fstype: ext4
+   mount_options: defaults
+   mount: /data/sdg
+   user: root
+   group: root
+   mode: "0755"
+   disable_periodic_fsck: false 
+

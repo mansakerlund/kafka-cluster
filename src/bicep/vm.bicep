@@ -11,6 +11,8 @@ param subnetPrefixBase string
 
 var subnetName = '${prj}-${env}-${loc}-${subnetBasename}'
 var virtualNetworkName_var = '${prj}-${env}-${loc}-${vnetBasename}'
+var number_of_VMs = 1
+var number_of_disks = 5
 
 @description('Linux VM user account name')
 param adminUsername string = 'vmadmin'
@@ -58,7 +60,7 @@ var subnetRef = resourceId('Microsoft.Network/virtualNetworks/subnets', virtualN
 
 
 
-resource bootStorageAccountName 'Microsoft.Storage/storageAccounts@2021-02-01' = [for i in range(0, 3): {
+resource bootStorageAccountName 'Microsoft.Storage/storageAccounts@2021-02-01' = [for i in range(0, number_of_VMs): {
   name: 'bootstrg${i+1}${uniqueString(resourceGroup().id)}'
   location: location
   sku: {
@@ -74,7 +76,7 @@ resource virtualNetworkName 'Microsoft.Network/virtualNetworks@2019-11-01' exist
   name: virtualNetworkName_var
 }
 
-resource publicIp 'Microsoft.Network/publicIPAddresses@2020-11-01' = [for i in range(0, 3 ):{
+resource publicIp 'Microsoft.Network/publicIPAddresses@2020-11-01' = [for i in range(0, number_of_VMs ):{
   name: '${prj}-${env}-${loc}-vm-0${i+1}-publicip'
   location: location
       sku: {
@@ -90,7 +92,7 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2020-11-01' = [for i in r
 
 
 
-resource nicName 'Microsoft.Network/networkInterfaces@2019-11-01' = [for i in range(0, 3): {
+resource nicName 'Microsoft.Network/networkInterfaces@2019-11-01' = [for i in range(0, number_of_VMs): {
   name: '${prj}-${env}-${loc}-0${i+1}-nic'
   location: location
   tags: {
@@ -118,7 +120,7 @@ resource nicName 'Microsoft.Network/networkInterfaces@2019-11-01' = [for i in ra
   ]
 }]
 
-resource vmName 'Microsoft.Compute/virtualMachines@2019-12-01' = [for i in range(0, 3 ):{
+resource vmName 'Microsoft.Compute/virtualMachines@2019-12-01' = [for i in range(0, number_of_VMs ):{
   name: '${prj}-${env}-${loc}-vm-0${i+1}'
   location: location
   tags: {
@@ -146,7 +148,7 @@ resource vmName 'Microsoft.Compute/virtualMachines@2019-12-01' = [for i in range
         caching: 'ReadWrite'
         createOption: 'FromImage'
       }
-      dataDisks: [for disk in range(0, 6 ) : {
+      dataDisks: [for disk in range(0, number_of_disks ) : {
             name: '${prj}-${env}-${loc}-vm-0${i+1}-datadisk${disk}'
             diskSizeGB: 64
             lun: disk
