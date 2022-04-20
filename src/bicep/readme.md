@@ -31,13 +31,14 @@ New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName "vfkafka-
 
 - updated deployment
 
+from powershell prompt
 az deployment group create -g vfkafka-dev-wes-rg --parameters prj=vfkafka env=dev loc=wes -f .\main.bicep
 
 followed by
 
 az vm user update --resource-group  "vfkafka-dev-wes-rg" --name "vfkafka-dev-wes-vm-01" --username vmadmin --ssh-key-value c:/users/mansa/.ssh/kafkavm.pub
 
-foor all machines
+for all machines
 
 
 

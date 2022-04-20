@@ -1,0 +1,12 @@
+#Set-Content -Path C:\agent\_work\r1\a\_HAL\_HAL.PowerBI_Model\MainModel\dataSources\SQL.json -Value @'
+
+Set-Content -Path   $(System.DefaultWorkingDirectory)\_HAL\_HAL.PowerBI_Model\MainModel\dataSources\SQL.json -Value @'
+          {
+            "name": "SQL",
+            "connectionString": "data source=$(prj)-$(env)-$(loc)-sql.database.windows.net;initial catalog=$(prj)-$(env)-db-01;persist security info=True;user id=dbadmin;password=$(sqlServerPassword)",
+            "impersonationMode": "impersonateServiceAccount",
+            "provider": "System.Data.SqlClient"
+          }
+'@ 
+CAT  C:\agent\_work\r1\a\_HAL\_HAL.PowerBI_Model\MainModel\dataSources\SQL.json
+CAT C:\agent\_work\r1\a\_HAL\_HAL.PowerBI_Model\MainModel\dataSources\SQL.json

@@ -33,9 +33,9 @@ sudo apt-add-repository ppa:ansible/ansible
 
 # ssh wsl 
 
-ssh -i   /home/maak/.ssh/kafkavm  vmadmin@20.123.146.145
-ssh -i   /home/maak/.ssh/kafkavm  vmadmin@20.123.146.147
-ssh -i   /home/maak/.ssh/kafkavm  vmadmin@20.123.145.202
+ssh -i   /home/maak/.ssh/kafkavm  vmadmin@40.118.127.23
+ssh -i   /home/maak/.ssh/kafkavm  vmadmin@40.118.127.16
+ssh -i   /home/maak/.ssh/kafkavm  vmadmin@40.118.127.19
  
  
 first time kafkavmcan be copied from /mnt/c/users/mansa/.ssh/kafkavm and then get correct rights with 
@@ -59,7 +59,42 @@ https://kafka.apache.org/quickstart
 
 
 ## perf test commands
-kafka-producer-perf-test --topic test13 --throughput -1 --num-records 1000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092 --producer.config /path/to/ssl-perf-test.properties
+kafka-producer-perf-test --topic test11 --throughput -1 --num-records 1000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092 --producer.config /path/to/ssl-perf-test.properties
+
+
+/usr/bin/kafka-topics  --create --topic test12 --bootstrap-server kafka1:9092 -replication-factor 1 --partitions 15
+
+/usr/bin/kafka-topics  --create --topic test13 --bootstrap-server kafka1:9092 -replication-factor 1 --partitions 15
+
+/usr/bin/kafka-topics  --create --topic test14 --bootstrap-server kafka1:9092 -replication-factor 1 --partitions 15
+
+/usr/bin/kafka-topics  --create --topic test15 --bootstrap-server kafka1:9092 -replication-factor 1 --partitions 15
+
+/usr/bin/kafka-topics  --create --topic test16 --bootstrap-server kafka1:9092 -replication-factor 1 --partitions 15
+
+
+
+kafka-producer-perf-test --topic test12 --throughput -1 --num-records 1000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092
+
+
+kafka-producer-perf-test --topic test13 --throughput -1 --num-records 10000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092
+
+kafka-producer-perf-test --topic test14 --throughput -1 --num-records 10000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092
+
+kafka-producer-perf-test --topic test15 --throughput -1 --num-records 10000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092
+
+kafka-producer-perf-test --topic test16 --throughput -1 --num-records 10000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092
+
+kafka-producer-perf-test --topic test17 --throughput -1 --num-records 10000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092
+
+kafka-producer-perf-test --topic test18 --throughput -1 --num-records 10000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092
+
+kafka-producer-perf-test --topic test19 --throughput -1 --num-records 10000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092
+
+kafka-producer-perf-test --topic test20 --throughput -1 --num-records 10000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092
+
+kafka-producer-perf-test --topic test21 --throughput -1 --num-records 10000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092
+
 
 https://developers.redhat.com/articles/2021/07/19/benchmarking-kafka-producer-throughput-quarkus#the_test_environment
 https://strimzi.io/blog/2020/10/15/producer-tuning/
@@ -87,6 +122,9 @@ add entry for
  - before running unlock localhost private keystore and add to ssh client in current session only
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/kafkavm
+
+
+ansible-playbook main-vm.yml -i hosts-vm
 
 ansible-playbook main.yml -i hosts1
 ansible-playbook main.yml -i hosts2

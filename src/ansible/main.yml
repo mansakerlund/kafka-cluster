@@ -1,5 +1,10 @@
 ---
 
+#- hosts: vm
+#  become: true
+#  roles:
+#    - diskprep
+
 
 #- hosts: zookeeper_servers 
 #  become: true
