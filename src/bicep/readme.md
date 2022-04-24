@@ -32,7 +32,7 @@ New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName "vfkafka-
 - updated deployment
 
 from powershell prompt
-az deployment group create -g vfkafka-dev-wes-rg --parameters prj=vfkafka env=dev loc=wes -f .\main.bicep
+az deployment group create --name $deploymentName -g vfkafka-dev-wes-rg --parameters prj=vfkafka env=dev loc=wes deploy=$deploymentName -f .\main.bicep
 
 followed by
 
@@ -86,6 +86,26 @@ Private key path
 Run the example command below to connect to your VM.
 ssh -i ~/.ssh vmadmin@20.224.216.26
 Can't connect?
+
+
+ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.102
+ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.52
+ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.142
+ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.116
+ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.39
+
+
+ssh -i ~/.ssh/kafkavm vmadmin@20.234.218.156
+ssh -i ~/.ssh/kafkavm vmadmin@20.234.218.151
+ssh -i ~/.ssh/kafkavm vmadmin@20.234.218.141
+ssh -i ~/.ssh/kafkavm vmadmin@20.234.218.136
+ssh -i ~/.ssh/kafkavm vmadmin@20.234.218.163
+
+
+
+
+
+
 
 
 ## Update ssh in azure existing Azure VM 

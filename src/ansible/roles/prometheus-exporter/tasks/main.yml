@@ -1,0 +1,18 @@
+# https://computingforgeeks.com/how-to-install-prometheus-on-rhel-8/
+
+- name: Download
+  ansible.builtin.shell:
+    cmd: wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.13.0/jmx_prometheus_javaagent-0.13.0.jar
+
+- name: Copy to install folders
+  ansible.builtin.shell:
+    cmd: TODO cp jar to kafka folder
+
+- name: set configuration
+  template: src=templates/prometheus.yml.j2 dest=/etc/prometheus/prometheus.yml force=yes
+
+# TODO Add startup to service
+# Environment="KAFKA_OPTS=-javaagent:/usr/local/kafka-server/libs/jmx_prometheus_javaagent-0.13.0.jar=7075:/usr/local/kafka-server/config/sample_jmx_exporter.yml"
+# also add specified port to firewall    
+# more info heer https://github.com/prometheus/jmx_exporter
+

@@ -2,6 +2,7 @@ param prj string = 'vfkafka'
 param env string = 'dev'
 param loc string = 'wes'
 param location string = 'westeurope'
+param deploy string = 'westeurope'
 
 var  subnetBasename  = 'subnet-kafka'
 var vnetBasename = 'vnet'
@@ -27,8 +28,8 @@ module infraModule 'infra.bicep' = {
 
 */
 
-module vmModule 'vm.bicep' = {
-  name: 'vmDeploy'
+module vmServerModule 'vm.bicep' = {
+  name: 'vmDeploy${deploy}Server'
   params: {
     prj:prj
     env:env
@@ -37,5 +38,28 @@ module vmModule 'vm.bicep' = {
     subnetBasename:subnetBasename
     vnetBasename:vnetBasename  
     subnetPrefixBase:subnetPrefixBase  
+    /* vmSize:'Standard_DS4_v2' */
+    vmSize:'Standard_DS2_v2'
+    number_of_VMs:5
+    number_of_data_disks:1
+    vmIdOffset:0
   }
 }
+/*
+module vmClientModule 'vm.bicep' = {
+  name: 'vmDeploy${deploy}Client'
+  params: {
+    prj:prj
+    env:env
+    loc:loc
+    location:location
+    subnetBasename:subnetBasename
+    vnetBasename:vnetBasename  
+    subnetPrefixBase:subnetPrefixBase  
+    vmSize:'Standard_A2m_v2'
+    number_of_VMs:5
+    number_of_data_disks:1
+    vmIdOffset:5
+  }
+}
+*/

@@ -1,0 +1,16 @@
+# These are your zookeeper cluster nodes
+[kafka_brokers]
+kafka1 kafka_broker_id=1 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.102     ansible_password=x6&4BMaRdJ+B_h5Z
+kafka2 kafka_broker_id=2 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.52     ansible_password=x6&4BMaRdJ+B_h5Z
+kafka3 kafka_broker_id=3 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.142    ansible_password=x6&4BMaRdJ+B_h5Z
+kafka4 kafka_broker_id=4 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.116    ansible_password=x6&4BMaRdJ+B_h5Z
+
+# These are your zookeeper cluster nodes
+[zookeeper_servers]
+zookeeper1 zk_id=1 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.102     ansible_password=x6&4BMaRdJ+B_h5Z
+zookeeper2 zk_id=2 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.52     ansible_password=x6&4BMaRdJ+B_h5Z
+zookeeper3 zk_id=3 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.142    ansible_password=x6&4BMaRdJ+B_h5Z
+zookeeper4 zk_id=4 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.116    ansible_password=x6&4BMaRdJ+B_h5Z
+
+
+

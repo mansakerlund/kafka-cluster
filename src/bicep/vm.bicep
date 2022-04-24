@@ -11,8 +11,8 @@ param subnetPrefixBase string
 
 var subnetName = '${prj}-${env}-${loc}-${subnetBasename}'
 var virtualNetworkName_var = '${prj}-${env}-${loc}-${vnetBasename}'
-var number_of_VMs = 1
-var number_of_disks = 5
+param number_of_VMs int  = 1
+param number_of_data_disks int = 1
 
 @description('Linux VM user account name')
 param adminUsername string = 'vmadmin'
@@ -34,7 +34,12 @@ param adminPasswordOrSSHKey string = 'x6&4BMaRdJ+B_h5Z'
 // param vmSize string = 'Standard_D2s_v3'
 //param vmSize string = 'Standard_D4s_v3'
 // param vmSize string = 'Standard_A2m_v2' // throughput wiyh only os disk 15000 msg/s
-param vmSize string = 'Standard_DS11'
+//param vmSize string = 'Standard_DS11'
+param vmSize string = 'Standard_DS4_v2' // production
+param vmIdOffset int = 0 // production
+
+
+// param vmSize 
 
 
 var singlequote = '\''
@@ -61,7 +66,7 @@ var subnetRef = resourceId('Microsoft.Network/virtualNetworks/subnets', virtualN
 
 
 resource bootStorageAccountName 'Microsoft.Storage/storageAccounts@2021-02-01' = [for i in range(0, number_of_VMs): {
-  name: 'bootstrg${i+1}${uniqueString(resourceGroup().id)}'
+  name: 'bootstrg${i+1+vmIdOffset}${uniqueString(resourceGroup().id)}'
   location: location
   sku: {
     name: storageAccountType
@@ -77,7 +82,7 @@ resource virtualNetworkName 'Microsoft.Network/virtualNetworks@2019-11-01' exist
 }
 
 resource publicIp 'Microsoft.Network/publicIPAddresses@2020-11-01' = [for i in range(0, number_of_VMs ):{
-  name: '${prj}-${env}-${loc}-vm-0${i+1}-publicip'
+  name: '${prj}-${env}-${loc}-vm-0${i+1+vmIdOffset}-publicip'
   location: location
       sku: {
           name: 'Basic'
@@ -93,7 +98,7 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2020-11-01' = [for i in r
 
 
 resource nicName 'Microsoft.Network/networkInterfaces@2019-11-01' = [for i in range(0, number_of_VMs): {
-  name: '${prj}-${env}-${loc}-0${i+1}-nic'
+  name: '${prj}-${env}-${loc}-0${i+1+vmIdOffset}-nic'
   location: location
   tags: {
     QuickstartName: 'Vattenfall Centos 8 (stand-alone VM)'
@@ -104,7 +109,7 @@ resource nicName 'Microsoft.Network/networkInterfaces@2019-11-01' = [for i in ra
         name: 'ipconfig1'
         properties: {
           privateIPAllocationMethod: 'Static'
-          privateIPAddress: '${subnetPrefixBase}${i+11}'
+          privateIPAddress: '${subnetPrefixBase}${i+11+vmIdOffset}'
           publicIPAddress: {
             id: publicIp[i].id
           }
@@ -121,7 +126,7 @@ resource nicName 'Microsoft.Network/networkInterfaces@2019-11-01' = [for i in ra
 }]
 
 resource vmName 'Microsoft.Compute/virtualMachines@2019-12-01' = [for i in range(0, number_of_VMs ):{
-  name: '${prj}-${env}-${loc}-vm-0${i+1}'
+  name: '${prj}-${env}-${loc}-vm-0${i+1+vmIdOffset}'
   location: location
   tags: {
     QuickstartName: 'Vattenfall Centos 8 (stand-alone VM)'
@@ -131,7 +136,7 @@ resource vmName 'Microsoft.Compute/virtualMachines@2019-12-01' = [for i in range
       vmSize: vmSize
     }
     osProfile: {
-      computerName: '${prj}-${env}-${loc}-vm-0${i+1}'
+      computerName: '${prj}-${env}-${loc}-vm-0${i+1+vmIdOffset}'
       adminUsername: adminUsername
       adminPassword: adminPasswordOrSSHKey
       linuxConfiguration: ((authenticationType == 'password') ? json('null') : linuxConfiguration)
@@ -144,12 +149,12 @@ resource vmName 'Microsoft.Compute/virtualMachines@2019-12-01' = [for i in range
         version: 'latest'
       }
       osDisk: {
-        name: '${prj}-${env}-${loc}-vm-0${i+1}_OSDisk'
+        name: '${prj}-${env}-${loc}-vm-0${i+1+vmIdOffset}_OSDisk'
         caching: 'ReadWrite'
         createOption: 'FromImage'
       }
-      dataDisks: [for disk in range(0, number_of_disks ) : {
-            name: '${prj}-${env}-${loc}-vm-0${i+1}-datadisk${disk}'
+      dataDisks: [for disk in range(0, number_of_data_disks ) : {
+            name: '${prj}-${env}-${loc}-vm-0${i+1+vmIdOffset}-datadisk${disk}'
             diskSizeGB: 64
             lun: disk
             'createOption': 'Empty'

@@ -12,7 +12,10 @@
 # template: src=confluent.repo.j2 dest=/etc/yum.repos.d/confluent.repo owner=root group=root mode=644 force=yes
 - name: Add confluent repos to package manager (YUM)
   template: src=confluent.repo.j2 dest=/etc/yum.repos.d/confluent.repo force=yes
-  
+
+- name: Add grafana repos to package manager (YUM)
+  template: src=grafana.repo.j2 dest=/etc/yum.repos.d/grafana.repo force=yes
+
 
 - name: Clear YUM Caches
   command: sudo yum clean all
@@ -20,3 +23,6 @@
 # TODO detect if install already done or leave that to YUM?
 - name: Confluent Platform using only Confluent Community components
   command: sudo yum -y install confluent-community-2.13
+
+- name: Grafana
+  command: sudo yum -y install grafana

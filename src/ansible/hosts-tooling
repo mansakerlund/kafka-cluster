@@ -1,0 +1,6 @@
+[tooling]
+tooling2 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.234.218.156   ansible_password=x6&4BMaRdJ+B_h5Z
+tooling3 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.234.218.151   ansible_password=x6&4BMaRdJ+B_h5Z
+tooling4 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.234.218.141   ansible_password=x6&4BMaRdJ+B_h5Z
+tooling5 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.234.218.136   ansible_password=x6&4BMaRdJ+B_h5Z
+tooling6 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.234.218.163   ansible_password=x6&4BMaRdJ+B_h5Z

@@ -33,7 +33,7 @@ sudo apt-add-repository ppa:ansible/ansible
 
 # ssh wsl 
 
-ssh -i   /home/maak/.ssh/kafkavm  vmadmin@40.118.127.23
+ssh -i   /home/maak/.ssh/kafkavm  vmadmin@40.113.99.153
 ssh -i   /home/maak/.ssh/kafkavm  vmadmin@40.118.127.16
 ssh -i   /home/maak/.ssh/kafkavm  vmadmin@40.118.127.19
  
@@ -44,13 +44,21 @@ chmod 600 ~/.ssh/kafkavm
  ## start commands
 
  cd /etc/kafka
- /usr/bin/zookeeper-server-start  /etc/kafka/zookeeper.properties
- /usr/bin/kafka-server-start  /etc/kafka/server.properties
+ sudo /usr/bin/zookeeper-server-start  /etc/kafka/zookeeper.properties
+ sudo /usr/bin/kafka-server-start  /etc/kafka/server.properties
+
+
+## hosts
+ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.102
+ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.52
+ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.142
+ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.116
+ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.39
 
 ## kafka commands
 https://kafka.apache.org/quickstart
 
-/usr/bin/kafka-topics  --create --topic test11 --bootstrap-server kafka1:9092 -replication-factor 1 --partitions 3
+/usr/bin/kafka-topics  --create --topic test11 --bootstrap-server kafka1:9092 -replication-factor 2 --partitions 12
 /usr/bin/kafka-topics --describe --topic test --bootstrap-server kafka1:9092
 /usr/bin/kafka-console-producer --topic test11 --bootstrap-server kafka1:9092
 
@@ -60,6 +68,17 @@ https://kafka.apache.org/quickstart
 
 ## perf test commands
 kafka-producer-perf-test --topic test11 --throughput -1 --num-records 1000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092 --producer.config /path/to/ssl-perf-test.properties
+
+kafka-producer-perf-test --topic test11 --throughput -1 --num-records 20000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092 
+
+kafka-producer-perf-test --topic test12 --throughput -1 --num-records 20000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092 
+
+kafka-producer-perf-test --topic test13 --throughput -1 --num-records 20000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092 
+
+kafka-producer-perf-test --topic test14 --throughput -1 --num-records 20000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092 
+
+kafka-producer-perf-test --topic test15 --throughput -1 --num-records 20000000 --record-size 1024 --producer-props acks=all bootstrap.servers=kafka1:9092,kafka2:9092,kafka3:9092 
+
 
 
 /usr/bin/kafka-topics  --create --topic test12 --bootstrap-server kafka1:9092 -replication-factor 1 --partitions 15
@@ -123,8 +142,10 @@ add entry for
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/kafkavm
 
-
+# adjusts disks before running vm
+ansible-playbook main-tooling.yml -i hosts-tooling
 ansible-playbook main-vm.yml -i hosts-vm
+ansible-playbook main-zookeeper.yml -i hosts-zookeeper
 
 ansible-playbook main.yml -i hosts1
 ansible-playbook main.yml -i hosts2

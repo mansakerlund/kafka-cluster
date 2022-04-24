@@ -74,6 +74,8 @@ disk_additional_disks:
    group: root
    mode: "0755"
    disable_periodic_fsck: false 
+
+disk_additional_disks_not_included:
  - disk: /dev/sdd
    fstype: ext4
    mount_options: defaults
