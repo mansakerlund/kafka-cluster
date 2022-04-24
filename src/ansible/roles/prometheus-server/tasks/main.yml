@@ -1,3 +1,4 @@
+# https://computingforgeeks.com/monitor-apache-kafka-with-prometheus-and-grafana/
 # https://computingforgeeks.com/how-to-install-prometheus-on-rhel-8/
 - name: Create a data directory 
   ansible.builtin.file:
@@ -17,11 +18,11 @@
     - rules.d
     - files_sd
 
-- name: Create an install directory
-  ansible.builtin.file:
-    path: /usr/local/bin/prometheus # data
-    state: directory
-    mode: 0775
+#- name: Create an install directory
+#  ansible.builtin.file:
+#    path: /usr/local/bin/prometheus # data
+#    state: directory
+#    mode: 0775
 
 - name: Download
   ansible.builtin.shell:
@@ -35,14 +36,48 @@
   ansible.builtin.shell:
     cmd: cd prometheus-2.34.0.linux-amd64
 
+# todo variables for dirs
+- name: Ensures  dir exists
+  file: path=/usr/local/bin state=directory
+
+- name: Change to folder
+  ansible.builtin.shell:
+    cmd: cd
+
+- name: Change to folder
+  ansible.builtin.shell:
+    cmd: cd prometheus-2.34.0.linux-amd64
+
+- name: ls
+  find:
+    paths: .
+    patterns: "*"
+    recurse: no
+    file_type: directory
+  register: found_directories
+
+- debug:
+    msg: "{{ [item.path] }} "
+  with_items: "{{ found_directories.files }}"
+
 - name: Copy to install folders
   ansible.builtin.shell:
-    cmd: sudo cp prometheus promtool /usr/local/bin/
+    cmd: cp /home/vmadmin/prometheus-2.34.0.linux-amd64/prometheus /usr/local/bin/prometheus
+
+- name: Copy to install folders
+  ansible.builtin.shell:
+    cmd: cp /home/vmadmin/prometheus-2.34.0.linux-amd64/promtool  /usr/local/bin/promtool
+
+
+
+# todo variables for dirs
+- name: Ensures  dir exists
+  file: path=/etc/prometheus state=directory
 
 
 - name: Copy to install folders
   ansible.builtin.shell:
-    cmd: sudo cp -r prometheus.yml consoles/ console_libraries/ /etc/prometheus/
+    cmd: sudo cp -r /home/vmadmin/prometheus-2.34.0.linux-amd64/prometheus.yml /home/vmadmin/prometheus-2.34.0.linux-amd64/consoles/ /home/vmadmin/prometheus-2.34.0.linux-amd64/console_libraries/ /etc/prometheus/
 
 - name: set configuration
   template: src=templates/prometheus.yml.j2 dest=/etc/prometheus/prometheus.yml force=yes

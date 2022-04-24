@@ -4,3 +4,4 @@ vm2 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.52  
 vm3 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.142    ansible_password=x6&4BMaRdJ+B_h5Z
 vm4 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.116    ansible_password=x6&4BMaRdJ+B_h5Z
 vm5 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.101.143.39   ansible_password=x6&4BMaRdJ+B_h5Z
+

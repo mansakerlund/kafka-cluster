@@ -45,7 +45,15 @@ chmod 600 ~/.ssh/kafkavm
 
  cd /etc/kafka
  sudo /usr/bin/zookeeper-server-start  /etc/kafka/zookeeper.properties
+
+
+ export KAFKA_OPTS='-javaagent:/etc/kafka/exporter/jmx_prometheus_javaagent-0.13.0.jar=7070:/etc/kafka/exporter/config.yml'
  sudo /usr/bin/kafka-server-start  /etc/kafka/server.properties
+
+ export KAFKA_OPTS="-javaagent:/etc/kafka/exporter/jmx_prometheus_javaagent-0.13.0.jar=7070:/etc/kafka/exporter/config.yml" sudo /usr/bin/kafka-server-start  /etc/kafka/server.properties
+
+sudo export 
+sudo EXTRA_ARGS=-javaagent:/etc/kafka/exporter/jmx_prometheus_javaagent-0.13.0.jar=7070:/etc/kafka/exporter/config.yml /usr/bin/kafka-server-start  /etc/kafka/server.properties
 
 
 ## hosts
@@ -54,6 +62,18 @@ ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.52
 ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.142
 ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.116
 ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.39
+
+
+# connect with sshpass
+
+yum install sshpass
+
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.107.82.189
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.107.83.149
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.107.83.24
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.107.83.25
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.107.83.148
+
 
 ## kafka commands
 https://kafka.apache.org/quickstart
@@ -143,9 +163,10 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/kafkavm
 
 # adjusts disks before running vm
-ansible-playbook main-tooling.yml -i hosts-tooling
-ansible-playbook main-vm.yml -i hosts-vm
-ansible-playbook main-zookeeper.yml -i hosts-zookeeper
+ansible-playbook main-vm.yml -i hosts
+ansible-playbook main-tooling.yml -i hosts
+ansible-playbook main-zookeeper.yml -i hosts
+ansible-playbook main-kafka.yml -i hosts
 
 ansible-playbook main.yml -i hosts1
 ansible-playbook main.yml -i hosts2
@@ -280,6 +301,40 @@ sudo mount /dev/sdc1 /datadrive
 
 reappear after reboot
 sudo nano /etc/fstab
+
+
+
+# prometheus (start with )
+
+get local ip address
+https://ipinfo.io/
+
+need to open 9090 on promethues server
+
+need to open 7070 on all kafka brokers so that prometheus can scrape
+
+start kafka with agent
+sudo EXTRA_ARGS=-javaagent:/etc/kafka/exporter/jmx_prometheus_javaagent-0.13.0.jar=7070:/etc/kafka/exporter/config.yml /usr/bin/kafka-server-start  /etc/kafka/server.properties
+
+
+validate by checking that port is open
+ sudo ss -tunelp | grep 7070
+
+start prometheus server
+ sudo /usr/local/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/var/lib/prometheus --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries --web.listen-address=0.0.0.0:9090 --web.external-url=
+
+need to open ports 9090 to access server
+
+
+link promethues
+https://computingforgeeks.com/monitor-apache-kafka-with-prometheus-and-grafana/
+
+
+https://www.confluent.io/blog/monitor-kafka-clusters-with-prometheus-grafana-and-confluent/
+
+
+
+
 
 
 

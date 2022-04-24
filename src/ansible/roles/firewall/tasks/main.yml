@@ -25,10 +25,18 @@
   notify: firewall restart
 
 
-- name: set port policy prometheus
+- name: set port policy prometheus web server GUI
   firewalld: port={{ item }}/tcp permanent=true state=enabled immediate=yes
   with_items:
     - 9090
+  tags:
+  - firewall 
+  notify: firewall restart
+
+- name: set port policy prometheus exporter
+  firewalld: port={{ item }}/tcp permanent=true state=enabled immediate=yes
+  with_items:
+    - 7070
   tags:
   - firewall 
   notify: firewall restart

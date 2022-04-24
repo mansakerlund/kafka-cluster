@@ -17,21 +17,18 @@ az account list  --output table
 - change subscription
 az account set --subscription <name or id>
 
-- set variables for date and deployment name
+## deployment 
+
+
+from powershell prompt
+
+set variables for date and deployment name
 $date = Get-Date -Format "yyyy-MM-dd"
 $deploymentName = "vfkafka" +"$date" + "a"
 
-- deployment 
-New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName "vattenfall-kafka" -TemplateFile .\vm.bicep -TemplateParameterFile .\vm.parameters.json -c
 
 
 
-
-New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName "vfkafka-wes-dev-rg" -TemplateFile .\main.bicep -c --parameters prj='vfkafka' env='dev' loc='wes 'location='westeurope'
-
-- updated deployment
-
-from powershell prompt
 az deployment group create --name $deploymentName -g vfkafka-dev-wes-rg --parameters prj=vfkafka env=dev loc=wes deploy=$deploymentName -f .\main.bicep
 
 followed by

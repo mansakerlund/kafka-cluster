@@ -3,9 +3,6 @@
 - hosts: tooling
   become: true
   roles:
-    - diskmaster
-    - firewall
-    - java
-    - software
-
+  - prometheus-server
+    
 

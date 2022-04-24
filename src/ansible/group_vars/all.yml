@@ -7,7 +7,8 @@ kafka:
     data_dir: /var/lib/kafka 
     log_path: /var/log/kafka
     #log_dirs: /tmp/lib/kafka/kafka-logs
-    log_dirs: /data/sdc1,/data/sdd1,/data/sde1,/data/sdf1,/data/sdg1
+    log_dirs: /data/sdc1
+    #log_dirs: /data/sdc1,/data/sdd1,/data/sde1,/data/sdf1,/data/sdg1
     network_threads: 3
     disk_threads: 8 
     num_partitions: 3

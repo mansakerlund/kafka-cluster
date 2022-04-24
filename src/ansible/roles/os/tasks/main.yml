@@ -1,1 +1,3 @@
 # TODO ulimit + other os settings
+- name: create host files
+  template: src=templates/hosts.j2 dest=/etc/hosts force=yes

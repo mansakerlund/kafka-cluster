@@ -3,7 +3,4 @@
 - hosts: zookeeper_servers 
   become: true
   roles:
-    - firewall
-    - java
-    - software
     - zookeeper

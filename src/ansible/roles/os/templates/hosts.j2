@@ -1,0 +1,9 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+{% for server in groups["zookeeper_servers"] %}
+10.0.0.1{{ loop.index }}    zookeeper{{ loop.index }}
+{% endfor %}
+{% for server in groups["kafka_brokers"] %}
+10.0.0.1{{ loop.index }}    kafka{{ loop.index }}
+{% endfor %}
+10.0.0.15   prometheus

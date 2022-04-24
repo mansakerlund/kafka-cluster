@@ -1,0 +1,27 @@
+[vm]
+vm1 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.82.189     ansible_password=x6&4BMaRdJ+B_h5Z
+vm2 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.149  ansible_password=x6&4BMaRdJ+B_h5Z
+vm3 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.24    ansible_password=x6&4BMaRdJ+B_h5Z
+vm4 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.25   ansible_password=x6&4BMaRdJ+B_h5Z
+vm5 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.148   ansible_password=x6&4BMaRdJ+B_h5Z
+
+[kafka_brokers]
+kafka1 kafka_broker_id=1 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.82.189     ansible_password=x6&4BMaRdJ+B_h5Z
+kafka2 kafka_broker_id=2 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.149  ansible_password=x6&4BMaRdJ+B_h5Z
+kafka3 kafka_broker_id=3 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.24    ansible_password=x6&4BMaRdJ+B_h5Z
+kafka4 kafka_broker_id=4 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.25   ansible_password=x6&4BMaRdJ+B_h5Z
+
+
+[zookeeper_servers]
+zookeeper1 zk_id=1 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.82.189     ansible_password=x6&4BMaRdJ+B_h5Z
+zookeeper2 zk_id=2 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.149  ansible_password=x6&4BMaRdJ+B_h5Z
+zookeeper3 zk_id=3 ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.24    ansible_password=x6&4BMaRdJ+B_h5Z
+
+#
+#[kafka_connect]
+#kafkaconnect1  connect_broker_id=1   ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.224.216.26
+#kafka2 kafka_broker_id=2
+#kafka3 kafka_broker_id=3
+
+[tooling]
+prometheus  ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.148  ansible_password=x6&4BMaRdJ+B_h5Z
