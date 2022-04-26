@@ -1,0 +1,6 @@
+- name: Ensures  dir exists
+  file: path='{{ schemaregistry.configuration.config_path }}' state=directory
+    
+- name: set registry config
+  template: src=templates/schema-registry.properties.j2 dest={{ schemaregistry.configuration.config_path }}/schema-registry.properties force=yes
+

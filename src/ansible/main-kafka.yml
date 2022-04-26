@@ -2,5 +2,5 @@
 - hosts: kafka_brokers
   become: true
   roles:
-#    - kafka
-    - prometheus-exporter
+    - kafka
+#    - prometheus-exporter

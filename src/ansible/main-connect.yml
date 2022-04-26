@@ -1,0 +1,16 @@
+---
+
+- hosts: kafka_connect
+  become: true
+  roles:
+    - connect
+
+
+#- hosts: kafka_connect
+#  become: true
+#  roles:
+#    - diskmaster
+#    - os
+#    - firewall
+#    - java
+#    - software

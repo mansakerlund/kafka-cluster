@@ -40,6 +40,10 @@ zookeeper:
 connect:
   configuration:
     plugin_path: /etc/kafka/connect_plugin
+schemaregistry:
+  configuration:
+    config_path: /etc/schema-registry
+
 java:
   java_type: jdk
 

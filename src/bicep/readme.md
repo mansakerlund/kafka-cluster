@@ -38,6 +38,12 @@ az vm user update --resource-group  "vfkafka-dev-wes-rg" --name "vfkafka-dev-wes
 for all machines
 
 
+start all vms in resource group
+az vm start --ids $(az vm list -g vfkafka-dev-wes-rg --query "[].id" -o tsv)
+
+deallocate vms
+vms_ids=$(az vm list -g vfkafka-dev-wes-rg --query "[].id" -o tsv)
+az vm deallocate --ids {vms_ids}
 
 -c indicates dry run, remove to do actual deployment
 
@@ -86,17 +92,7 @@ Can't connect?
 
 
 ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.102
-ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.52
-ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.142
-ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.116
-ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.39
 
-
-ssh -i ~/.ssh/kafkavm vmadmin@20.234.218.156
-ssh -i ~/.ssh/kafkavm vmadmin@20.234.218.151
-ssh -i ~/.ssh/kafkavm vmadmin@20.234.218.141
-ssh -i ~/.ssh/kafkavm vmadmin@20.234.218.136
-ssh -i ~/.ssh/kafkavm vmadmin@20.234.218.163
 
 
 

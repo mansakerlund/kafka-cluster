@@ -41,4 +41,20 @@
   - firewall 
   notify: firewall restart
 
+- name: open port for connect rest api 
+  firewalld: port={{ item }}/tcp permanent=true state=enabled immediate=yes
+  with_items:
+    - 8083
+  tags:
+  - firewall 
+  notify: firewall restart
+
+- name: open port for registry
+  firewalld: port={{ item }}/tcp permanent=true state=enabled immediate=yes
+  with_items:
+    - 8081
+  tags:
+  - firewall 
+  notify: firewall restart
+
  

@@ -4,3 +4,20 @@
 - name: set connect configuration
   template: src=templates/connect.properties.j2 dest={{ _kafka_config_path }}/connect.properties force=yes
   
+#- copy:
+#    src: confluentinc-kafka-connect-s3-10.0.7.zip
+#    dest: '{{ connect.configuration.plugin_path }}/etc/confluentinc-kafka-connect-s3-10.0.7.zip'
+
+- name: Ensures  dir exists
+  file: path='{{ connect.configuration.plugin_path }}' state=directory
+
+
+
+- name: extract archive
+  ansible.builtin.unarchive:
+        src: confluentinc-kafka-connect-s3-10.0.7.zip
+        dest: '{{ connect.configuration.plugin_path }}'
+
+- name: set s3 sink config
+  template: src=templates/s3-sink.properties.j2 dest={{ install_path }}/s3-sink.properties force=yes
+

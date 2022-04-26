@@ -1,8 +1,0 @@
----
-
-- hosts: vm
-  become: true
-  roles:
-    - firewall
-
-

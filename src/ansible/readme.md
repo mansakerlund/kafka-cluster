@@ -68,11 +68,18 @@ ssh -i ~/.ssh/kafkavm vmadmin@20.101.143.39
 
 yum install sshpass
 
-sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.107.82.189
-sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.107.83.149
-sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.107.83.24
-sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.107.83.25
-sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.107.83.148
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.105.250.55
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.105.249.201
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.105.249.248
+
+
+
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.234.165.137
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.234.165.136
+sshpass -p 'x6&4BMaRdJ+B_h5Z' ssh -o StrictHostKeyChecking=no vmadmin@20.234.163.143
+
+
+
 
 
 ## kafka commands
