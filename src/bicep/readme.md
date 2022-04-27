@@ -41,9 +41,9 @@ for all machines
 start all vms in resource group
 az vm start --ids $(az vm list -g vfkafka-dev-wes-rg --query "[].id" -o tsv)
 
-deallocate vms
-vms_ids=$(az vm list -g vfkafka-dev-wes-rg --query "[].id" -o tsv)
-az vm deallocate --ids {vms_ids}
+deallocate vms powershell
+$vms_ids= az vm list -g vfkafka-dev-wes-rg --query "[].id" -o tsv
+az vm deallocate --ids $vms_ids
 
 -c indicates dry run, remove to do actual deployment
 
