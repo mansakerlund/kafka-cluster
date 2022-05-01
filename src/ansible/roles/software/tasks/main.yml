@@ -3,7 +3,8 @@
   yum:
     name:
       - curl
-      - which      
+      - which
+      - jq      
     state: latest
 
 - name: Install Confluent Platform public key

@@ -13,7 +13,7 @@
 
 
 
-- name: extract archive
+- name: extract archive for s3 sink
   ansible.builtin.unarchive:
         src: confluentinc-kafka-connect-s3-10.0.7.zip
         dest: '{{ connect.configuration.plugin_path }}'
@@ -21,3 +21,7 @@
 - name: set s3 sink config
   template: src=templates/s3-sink.properties.j2 dest={{ install_path }}/s3-sink.properties force=yes
 
+- name: extract archive for datagen source
+  ansible.builtin.unarchive:
+        src: confluentinc-kafka-connect-datagen-0.5.3.zip
+        dest: '{{ connect.configuration.plugin_path }}'

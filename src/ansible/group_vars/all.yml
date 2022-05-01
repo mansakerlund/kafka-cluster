@@ -40,9 +40,12 @@ zookeeper:
 connect:
   configuration:
     plugin_path: /etc/kafka/connect_plugin
+    rest_api_port_http: 8083
+    rest_api_port_https: 8084
 schemaregistry:
   configuration:
     config_path: /etc/schema-registry
+    rest_api_port: 7070
 
 java:
   java_type: jdk

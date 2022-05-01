@@ -22,9 +22,10 @@
 
 bootstrap.servers=
 {%- for server in groups["kafka_brokers"] -%}
-    {{ server }}:{{ kafka.configuration.plain_port }}
+    PLAINTEXT://{{ server }}:{{ kafka.configuration.plain_port }}
     {%- if not loop.last %},{% endif %}
-{%- endfor -%}
+{%- endfor %}
+
 
 # unique name for the cluster, used in forming the Connect cluster group. Note that this must not conflict with consumer group IDs
 group.id=connect-cluster
@@ -74,7 +75,7 @@ offset.flush.interval.ms=10000
 # Specify hostname as 0.0.0.0 to bind to all interfaces.
 # Leave hostname empty to bind to default interface.
 # Examples of legal listener lists: HTTP://myhost:8083,HTTPS://myhost:8084"
-listeners=HTTP://:8083
+listeners=HTTP://:{{ connect.configuration.rest_api_port_http }}
 
 # The Hostname & Port that will be given out to other workers to connect to i.e. URLs that are routable from other servers.
 # If not set, it uses the value for "listeners" if configured.

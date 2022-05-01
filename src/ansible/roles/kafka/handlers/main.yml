@@ -1,8 +1,16 @@
-- name: start zookeeper
-  command: sudo systemctl start confluent-kafka
+- name: start kafka
+  command: sudo systemctl start kafka
 
-- name: stop zookeeper
-  command: sudo systemctl stop confluent-kafka
+- name: stop kafka
+  command: sudo systemctl stop kafka
 
-- name: status zookeeper
-  command: sudo systemctl start confluent-kafka
+- name: status kafka
+  command: sudo systemctl status kafka
+
+- name: enable kafka
+  command: sudo systemctl enable kafka
+
+
+- name: reload daemon
+  command: sudo systemctl daemon-reload
+

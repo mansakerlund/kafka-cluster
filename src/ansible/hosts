@@ -29,4 +29,4 @@ kafkaconnect3  connect_broker_id=3   ansible_connection=ssh  ansible_user=vmadmi
 prometheus  ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.107.83.148  ansible_password=x6&4BMaRdJ+B_h5Z
 
 [schema_registry]
-schemaregistry nsible_connection=ssh  ansible_user=vmadmin    ansible_host=20.234.165.137     ansible_password=x6&4BMaRdJ+B_h5Z
+schemaregistry ansible_connection=ssh  ansible_user=vmadmin    ansible_host=20.234.165.137     ansible_password=x6&4BMaRdJ+B_h5Z

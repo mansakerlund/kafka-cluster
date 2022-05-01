@@ -46,6 +46,7 @@ chmod 600 ~/.ssh/kafkavm
  cd /etc/kafka
  sudo /usr/bin/zookeeper-server-start  /etc/kafka/zookeeper.properties
 
+ sudo /usr/bin/kafka-server-start  /etc/kafka/server.properties
 
  export KAFKA_OPTS='-javaagent:/etc/kafka/exporter/jmx_prometheus_javaagent-0.13.0.jar=7070:/etc/kafka/exporter/config.yml'
  sudo /usr/bin/kafka-server-start  /etc/kafka/server.properties
@@ -54,6 +55,12 @@ chmod 600 ~/.ssh/kafkavm
 
 sudo export 
 sudo EXTRA_ARGS=-javaagent:/etc/kafka/exporter/jmx_prometheus_javaagent-0.13.0.jar=7070:/etc/kafka/exporter/config.yml /usr/bin/kafka-server-start  /etc/kafka/server.properties
+
+### connect
+/usr/bin/connect-distributed /etc/kafka/connect.properties
+
+### schema registry
+sudo /usr/bin/schema-registry-start /etc/schema-registry/schema-registry.properties
 
 
 ## hosts
@@ -174,9 +181,8 @@ ansible-playbook main-vm.yml -i hosts
 ansible-playbook main-tooling.yml -i hosts
 ansible-playbook main-zookeeper.yml -i hosts
 ansible-playbook main-kafka.yml -i hosts
-
-ansible-playbook main.yml -i hosts1
-ansible-playbook main.yml -i hosts2
+ansible-playbook main-connect.yml -i hosts
+ansible-playbook main-schema-registry.yml -i hosts
 
 
  ## Troubleshooting
@@ -340,6 +346,34 @@ https://computingforgeeks.com/monitor-apache-kafka-with-prometheus-and-grafana/
 https://www.confluent.io/blog/monitor-kafka-clusters-with-prometheus-grafana-and-confluent/
 
 
+# kafka connect 
+
+curl commands examples
+https://developer.confluent.io/learn-kafka/kafka-connect/rest-api/
+
+
+http://www.openkb.info/2019/12/how-to-submit-rest-requests-to.html
+
+
+
+
+http data gen example
+curl -v -X POST http://localhost:8083/connectors -H "Content-Type: application/json" --data-binary @- << EOF
+{
+  "name": "datagen-pageviews",
+  "config": {
+    "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
+    "kafka.topic": "pageviews",
+    "quickstart": "pageviews",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "max.interval": 100,
+    "iterations": 10000,
+    "tasks.max": "1"
+  }
+}
+EOF
 
 
 
@@ -347,6 +381,50 @@ https://www.confluent.io/blog/monitor-kafka-clusters-with-prometheus-grafana-and
 
 
 
+https
+curl -v -X POST https://v1.poc.com:8083/connectors \
+--cacert /opt/mapr/conf/ssl_truststore.pem  -u mapr:mapr \
+-H "Content-Type: application/json" \
+--data-binary @- << EOF
+{          
+    "name": "mysql-source-dist",
+    "config": {
+      "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+      "tasks.max": "1",
+      "connection.url": "jdbc:mysql://v4.poc.com:3306/hive?user=hive&password=hive",
+      "table.whitelist": "TBLS",
+      "mode": "incrementing",
+      "incrementing.column.name": "TBL_ID",
+      "topic.prefix": "/tmp/hivemeta:tbls"
+ }
+}
+EOF
 
+### s3 example
+
+curl -v -X POST http://localhost:8083/connectors -H "Content-Type: application/json" --data-binary @- << EOF
+{
+  "name": "s3-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.s3.S3SinkConnector",
+    "tasks.max": "1",
+    "topics": "pageviews",
+    "s3.region": "eu-north-1",
+    "s3.bucket.name": "sbabsparkdemo",
+    "s3.part.size": "5242880",
+    "flush.size": "1",
+    "storage.class": "io.confluent.connect.s3.storage.S3Storage",
+    "format.class": "io.confluent.connect.s3.format.json.JsonFormat",
+    "schema.generator.class": "io.confluent.connect.storage.hive.schema.DefaultSchemaGenerator",
+    "partitioner.class": "io.confluent.connect.storage.partitioner.DefaultPartitioner",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "value.converter.schemas.enable": "false",
+    "schema.compatibility": "NONE",
+    "name": "s3-sink"
+  }
+}
+EOF
 
 

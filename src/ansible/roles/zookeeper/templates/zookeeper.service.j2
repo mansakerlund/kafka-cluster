@@ -1,0 +1,19 @@
+[Unit]
+Description=Zookeeper Service
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+PIDFile={{ zookeeper.configuration.data_dir }}/myid
+SyslogIdentifier=zookeeper
+User=root
+Group=root
+ExecStart=/usr/bin/zookeeper-server-start
+ExecStop=/usr/bin/zookeeper-server-stop
+Restart=always
+TimeoutSec=20
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target

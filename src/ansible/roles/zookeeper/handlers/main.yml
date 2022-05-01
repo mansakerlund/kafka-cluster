@@ -1,8 +1,14 @@
 - name: start zookeeper
-  command: sudo systemctl start confluent-zookeeper
+  command: sudo systemctl start zookeeper
 
 - name: stop zookeeper
-  command: sudo systemctl stop confluent-zookeeper
+  command: sudo systemctl stop zookeeper
 
 - name: status zookeeper
-  command: sudo systemctl start confluent-zookeeper
+  command: sudo systemctl status zookeeper
+
+- name: enable zookeeper
+  command: sudo systemctl enable zookeeper
+
+- name: reload daemon
+  command: sudo systemctl daemon-reload

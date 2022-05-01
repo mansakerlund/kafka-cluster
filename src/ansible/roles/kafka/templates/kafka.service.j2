@@ -1,0 +1,17 @@
+[Unit]
+Requires=zookeeper.service
+After=zookeeper.service
+Description=High-available, distributed message broker
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/bin/kafka-server-start
+ExecStop=/usr/bin/kafka-server-stop
+TimeoutStartSec=0
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target

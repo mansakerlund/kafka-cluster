@@ -19,12 +19,17 @@
 #     listeners = listener_name://host_name:port
 #   EXAMPLE:
 #     listeners = PLAINTEXT://your.host.name:9092
-listeners=http://0.0.0.0:8081
+listeners=http://0.0.0.0:{{ schemaregistry.configuration.rest_api_port }}
 
 # Use this setting to specify the bootstrap servers for your Kafka cluster and it
 # will be used both for selecting the leader schema registry instance and for storing the data for
 # registered schemas.
-kafkastore.bootstrap.servers=PLAINTEXT://kafka1:9092
+kafkastore.bootstrap.servers=
+{%- for server in groups["kafka_brokers"] -%}
+    {{ server }}:{{ kafka.configuration.plain_port }}
+    {%- if not loop.last %},{% endif %}
+{%- endfor %}
+
 
 # The name of the topic to store schemas in
 kafkastore.topic=_schemas
