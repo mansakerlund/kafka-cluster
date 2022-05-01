@@ -354,10 +354,16 @@ https://developer.confluent.io/learn-kafka/kafka-connect/rest-api/
 
 http://www.openkb.info/2019/12/how-to-submit-rest-requests-to.html
 
+delete
+ curl -s -XDELETE "http://localhost:8083/connectors/name-of-connector"
+
+ curl -s -XDELETE "http://localhost:8083/connectors/s3-sink-avro1"
+ curl -s -XDELETE "http://localhost:8083/connectors/s3-sink-avro2"
+ curl -s -XDELETE "http://localhost:8083/connectors/datagen-pageviews"
+ 
 
 
-
-http data gen example
+http data gen JSON example
 curl -v -X POST http://localhost:8083/connectors -H "Content-Type: application/json" --data-binary @- << EOF
 {
   "name": "datagen-pageviews",
@@ -376,12 +382,34 @@ curl -v -X POST http://localhost:8083/connectors -H "Content-Type: application/j
 EOF
 
 
+http data gen AVRO example
+curl -v -X POST http://localhost:8083/connectors -H "Content-Type: application/json" --data-binary @- << EOF
+{
+  "name": "datagen-avro4",
+  "config": {
+    "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
+    "kafka.topic": "datagen-avro4",
+    "quickstart": "pageviews",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",        
+    "value.converter.schemas.enable": "true",
+    "value.converter.schema.registry.url": "http://localhost:7070",
+    "max.interval": 100,
+    "iterations": 10000,
+    "tasks.max": "1"
+  }
+}
+EOF
 
 
 
 
 
-https
+
+
+
+
+httpsgenreal example
 curl -v -X POST https://v1.poc.com:8083/connectors \
 --cacert /opt/mapr/conf/ssl_truststore.pem  -u mapr:mapr \
 -H "Content-Type: application/json" \
@@ -400,7 +428,7 @@ curl -v -X POST https://v1.poc.com:8083/connectors \
 }
 EOF
 
-### s3 example
+### s3 example JSON
 
 curl -v -X POST http://localhost:8083/connectors -H "Content-Type: application/json" --data-binary @- << EOF
 {
@@ -408,7 +436,7 @@ curl -v -X POST http://localhost:8083/connectors -H "Content-Type: application/j
   "config": {
     "connector.class": "io.confluent.connect.s3.S3SinkConnector",
     "tasks.max": "1",
-    "topics": "pageviews",
+    "topics": "datagen-avro3",
     "s3.region": "eu-north-1",
     "s3.bucket.name": "sbabsparkdemo",
     "s3.part.size": "5242880",
@@ -420,11 +448,67 @@ curl -v -X POST http://localhost:8083/connectors -H "Content-Type: application/j
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
     "value.converter.schemas.enable": "false",
-    "value.converter.schemas.enable": "false",
     "schema.compatibility": "NONE",
     "name": "s3-sink"
   }
 }
 EOF
+
+
+### s3 example AVRO writeing to json
+
+curl -v -X POST http://localhost:8083/connectors -H "Content-Type: application/json" --data-binary @- << EOF
+{
+  "name": "s3-sink-avro3",
+  "config": {
+    "connector.class": "io.confluent.connect.s3.S3SinkConnector",
+    "tasks.max": "1",
+    "topics": "datagen-avro3",
+    "s3.region": "eu-north-1",
+    "s3.bucket.name": "sbabsparkdemo",
+    "s3.part.size": "5242880",
+    "flush.size": "1000",
+    "storage.class": "io.confluent.connect.s3.storage.S3Storage",
+    "format.class": "io.confluent.connect.s3.format.json.JsonFormat",
+    "schema.generator.class": "io.confluent.connect.storage.hive.schema.DefaultSchemaGenerator",
+    "partitioner.class": "io.confluent.connect.storage.partitioner.DefaultPartitioner",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",        
+    "value.converter.schemas.enable": "true",
+    "value.converter.schema.registry.url": "http://localhost:7070",
+    "name": "s3-sink-avro3"
+  }
+}
+EOF
+
+
+### s3 example AVRO writeing to parquet
+
+curl -v -X POST http://localhost:8083/connectors -H "Content-Type: application/json" --data-binary @- << EOF
+{
+  "name": "s3-sink-avro4",
+  "config": {
+    "connector.class": "io.confluent.connect.s3.S3SinkConnector",
+    "tasks.max": "1",
+    "topics": "datagen-avro4",
+    "s3.region": "eu-north-1",
+    "s3.bucket.name": "sbabsparkdemo",
+    "s3.part.size": "5242880",
+    "flush.size": "1000",
+    "storage.class": "io.confluent.connect.s3.storage.S3Storage",
+    "format.class": "io.confluent.connect.s3.format.parquet.ParquetFormat",
+    "schema.generator.class": "io.confluent.connect.storage.hive.schema.DefaultSchemaGenerator",
+    "partitioner.class": "io.confluent.connect.storage.partitioner.DefaultPartitioner",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",        
+    "value.converter.schemas.enable": "true",
+    "value.converter.schema.registry.url": "http://localhost:7070",
+    "name": "s3-sink-avro4"
+  }
+}
+EOF
+
+
+kafka-topics --bootstrap-server=kafka1:9092 --describe --topic "datagen-avro4"
 
 
