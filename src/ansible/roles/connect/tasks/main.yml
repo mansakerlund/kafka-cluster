@@ -4,9 +4,6 @@
 - name: set connect configuration
   template: src=templates/connect.properties.j2 dest={{ _kafka_config_path }}/connect.properties force=yes
   
-#- copy:
-#    src: confluentinc-kafka-connect-s3-10.0.7.zip
-#    dest: '{{ connect.configuration.plugin_path }}/etc/confluentinc-kafka-connect-s3-10.0.7.zip'
 
 - name: Ensures  dir exists
   file: path='{{ connect.configuration.plugin_path }}' state=directory
